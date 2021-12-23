@@ -56,11 +56,8 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
 
       var people = [];
 
-      $.getJSON('glassers.json', function(data) {
-          $.each(data, function(i, f) {
-              if(f.date == today) {
-                 $.each(f.players, function(g, h) {
-
+      $.getJSON(`database/${today}.json`, function(data) {
+          $.each(data.players, function(g, h) {
                       var attrRow = "<tr>" +
                       "<td class='font-black'>" + h.name+ "</td>" +
                     `<td id="attr_str_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.attributes.str}>` + h.attributes.str + "</td>" +
@@ -94,63 +91,77 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
 
                     "</tr>"
                     $(resRow).appendTo("#player_res_attributes tbody");
-              });
-           };
-        });
+                             });
 
-         $.each(data, function(i, f) {
-              if(f.date == yesterday) {
-                 $.each(f.players, function(g, h) {
+        $.each(data.tribes, function(g, h) {
+                    var tribeRow = "<tr>" +
+                    "<td class='font-black'>" + h.name+ "</td>" +
+                    `<td id="tribe_members_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.members}>` + h.guild_parameters.members + "</td>" +
+                    `<td id="tribe_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.lvl}>` + h.guild_parameters.lvl + "</td>" +
+                    `<td id="tribe_reactor_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.reactor}>` + h.guild_parameters.reactor + "</td>" +
+                    `<td id="tribe_rank_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_results.rank}>` + h.guild_results.rank + "</td>" +
+                    `<td id="tribe_fame_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_results.fame}>` + h.guild_results.fame + "</td>" +
+                    `<td id="tribe_power_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_results.power}>` + h.guild_results.power + "</td>" +
+
+                    "</tr>"
+                    $(tribeRow).appendTo("#tribes tbody");
+
+         });
+    });
+
+      $.getJSON(`database/${yesterday}.json`, function(data) {
+
+                 $.each(data.players, function(g, h) {
                  str_td = $(`td#attr_str_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(str_td.text()) > parseInt(h.attributes.str)) {
-                 str_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(str_td.text()) - parseInt(h.attributes.str)}</span>`)
-                 } else if (parseInt(str_td.text()) < parseInt(h.attributes.str)) {
-                 str_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(str_td.text()) - parseInt(h.attributes.str)}</span>`)
+                 if (parseInt(str_td.text().replace(",", "")) > parseInt(h.attributes.str.replace(",", ""))) {
+                 str_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(str_td.text().replace(",", "")) - parseInt(h.attributes.str.replace(",", ""))}</span>`)
+                 } else if (parseInt(str_td.text().replace(",", "")) < parseInt(h.attributes.str.replace(",", ""))) {
+                 str_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(str_td.text().replace(",", "")) - parseInt(h.attributes.str.replace(",", ""))}</span>`)
                  }
 
                  agi_td = $(`td#attr_agi_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(agi_td.text()) > parseInt(h.attributes.agi)) {
-                 agi_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(agi_td.text()) - parseInt(h.attributes.agi)}</span>`)
-                 } else if (parseInt(agi_td.text()) < parseInt(h.attributes.agi)) {
-                 agi_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(agi_td.text()) - parseInt(h.attributes.agi)}</span>`)
+                 if (parseInt(agi_td.text().replace(",", "")) > parseInt(h.attributes.agi.replace(",", ""))) {
+                 agi_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(agi_td.text().replace(",", "")) - parseInt(h.attributes.agi.replace(",", ""))}</span>`)
+                 } else if (parseInt(agi_td.text().replace(",", "")) < parseInt(h.attributes.agi.replace(",", ""))) {
+                 agi_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(agi_td.text().replace(",", "")) - parseInt(h.attributes.agi.replace(",", ""))}</span>`)
                  }
 
                  end_td = $(`td#attr_end_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(end_td.text()) > parseInt(h.attributes.end)) {
-                 end_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(end_td.text()) - parseInt(h.attributes.end)}</span>`)
-                 } else if (parseInt(end_td.text()) < parseInt(h.attributes.end)) {
-                 end_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(end_td.text()) - parseInt(h.attributes.end)}</span>`)
+                 if (parseInt(end_td.text().replace(",", "")) > parseInt(h.attributes.end.replace(",", ""))) {
+                 end_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(end_td.text().replace(",", "")) - parseInt(h.attributes.end.replace(",", ""))}</span>`)
+                 } else if (parseInt(end_td.text().replace(",", "")) < parseInt(h.attributes.end.replace(",", ""))) {
+                 end_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(end_td.text().replace(",", "")) - parseInt(h.attributes.end.replace(",", ""))}</span>`)
                  }
 
                  int_td = $(`td#attr_int_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(int_td.text()) > parseInt(h.attributes.int)) {
-                 int_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(int_td.text()) - parseInt(h.attributes.int)}</span>`)
-                 } else if (parseInt(int_td.text()) < parseInt(h.attributes.int)) {
-                 int_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(int_td.text()) - parseInt(h.attributes.int)}</span>`)
+                 if (parseInt(int_td.text().replace(",", "")) > parseInt(h.attributes.int.replace(",", ""))) {
+                 int_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(int_td.text().replace(",", "")) - parseInt(h.attributes.int.replace(",", ""))}</span>`)
+                 } else if (parseInt(int_td.text().replace(",", "")) < parseInt(h.attributes.int.replace(",", ""))) {
+                 int_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(int_td.text().replace(",", "")) - parseInt(h.attributes.int.replace(",", ""))}</span>`)
                  }
 
                  lck_td = $(`td#attr_lck_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(lck_td.text()) > parseInt(h.attributes.lck)) {
-                 lck_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(lck_td.text()) - parseInt(h.attributes.lck)}</span>`)
-                 } else if (parseInt(lck_td.text()) < parseInt(h.attributes.lck)) {
-                 lck_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(lck_td.text()) - parseInt(h.attributes.lck)}</span>`)
+                 if (parseInt(lck_td.text().replace(",", "")) > parseInt(h.attributes.lck.replace(",", ""))) {
+                 lck_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(lck_td.text().replace(",", "")) - parseInt(h.attributes.lck.replace(",", ""))}</span>`)
+                 } else if (parseInt(lck_td.text().replace(",", "")) < parseInt(h.attributes.lck.replace(",", ""))) {
+                 lck_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(lck_td.text().replace(",", "")) - parseInt(h.attributes.lck.replace(",", ""))}</span>`)
                  }
 
 
 
 
                  lvl_td = $(`td#ext_attr_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                                  if (parseInt(lvl_td.text()) > parseInt(h.ext_attributes.lvl)) {
-                 lvl_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(lvl_td.text()) - parseInt(h.ext_attributes.lvl)}</span>`)
-                 } else if (parseInt(lvl_td.text()) < parseInt(h.ext_attributes.lvl)) {
-                 lvl_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(lvl_td.text()) - parseInt(h.ext_attributes.lvl)}</span>`)
+                                  if (parseInt(lvl_td.text().replace(",", "")) > parseInt(h.ext_attributes.lvl.replace(",", ""))) {
+                 lvl_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(lvl_td.text().replace(",", "")) - parseInt(h.ext_attributes.lvl.replace(",", ""))}</span>`)
+                 } else if (parseInt(lvl_td.text().replace(",", "")) < parseInt(h.ext_attributes.lvl.replace(",", ""))) {
+                 lvl_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(lvl_td.text().replace(",", "")) - parseInt(h.ext_attributes.lvl.replace(",", ""))}</span>`)
                  }
 
                  rank_td = $(`td#ext_attr_rank_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                                  if (parseInt(rank_td.text()) < parseInt(h.ext_attributes.rank)) {
-                 rank_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(rank_td.text()) - parseInt(h.ext_attributes.rank)}</span>`)
-                 } else if (parseInt(rank_td.text()) > parseInt(h.ext_attributes.rank)) {
-                 rank_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(rank_td.text()) - parseInt(h.ext_attributes.rank)}</span>`)
+                                  if (parseInt(rank_td.text().replace(",", "")) < parseInt(h.ext_attributes.rank.replace(",", ""))) {
+                 rank_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(rank_td.text().replace(",", "")) - parseInt(h.ext_attributes.rank.replace(",", ""))}</span>`)
+                 } else if (parseInt(rank_td.text().replace(",", "")) > parseInt(h.ext_attributes.rank.replace(",", ""))) {
+                 rank_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(rank_td.text().replace(",", "")) - parseInt(h.ext_attributes.rank.replace(",", ""))}</span>`)
                  }
 
                  fame_td = $(`td#ext_attr_fame_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
@@ -170,26 +181,24 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
 
 
 
-
-
                  explores_td = $(`td#ach_attr_explores_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(explores_td.text().replace(",", "")) > parseInt(h.ach_attributes.explores).replace(",", "")) {
+                 if (parseInt(explores_td.text().replace(",", "")) > parseInt(h.ach_attributes.explores.replace(",", ""))) {
                  explores_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores).replace(",", "")}</span>`)
-                 } else if (parseInt(explores_td.text().replace(",", "")) < parseInt(h.ach_attributes.explores).replace(",", "")) {
+                 } else if (parseInt(explores_td.text().replace(",", "")) < parseInt(h.ach_attributes.explores.replace(",", ""))) {
                  explores_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores).replace(",", "")}</span>`)
                  }
 
                  quests_td = $(`td#ach_attr_quests_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(quests_td.text()) > parseInt(h.ach_attributes.quests)) {
-                 quests_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(quests_td.text()) - parseInt(h.ach_attributes.quests)}</span>`)
-                 } else if (parseInt(quests_td.text()) < parseInt(h.ach_attributes.quests)) {
-                 quests_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(quests_td.text()) - parseInt(h.ach_attributes.quests)}</span>`)
+                 if (parseInt(quests_td.text().replace(",", "")) > parseInt(h.ach_attributes.quests.replace(",", ""))) {
+                 quests_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(quests_td.text().replace(",", "")) - parseInt(h.ach_attributes.quests.replace(",", ""))}</span>`)
+                 } else if (parseInt(quests_td.text().replace(",", "")) < parseInt(h.ach_attributes.quests.replace(",", ""))) {
+                 quests_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(quests_td.text().replace(",", "")) - parseInt(h.ach_attributes.quests.replace(",", ""))}</span>`)
                  }
 
                  monsters_td = $(`td#ach_attr_monsters_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
                  if (parseInt(monsters_td.text().replace(",", "")) > parseInt(h.ach_attributes.monsters.replace(",", ""))) {
                  monsters_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(monsters_td.text().replace(",", "")) - parseInt(h.ach_attributes.monsters.replace(",", ""))}</span>`)
-                 } else if (parseInt(monsters_td.text().replace(",", "")) < parseInt(h.ach_attributes.monsters).replace(",", "")) {
+                 } else if (parseInt(monsters_td.text().replace(",", "")) < parseInt(h.ach_attributes.monsters.replace(",", ""))) {
                  monsters_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(monsters_td.text().replace(",", "")) - parseInt(h.ach_attributes.monsters.replace(",", ""))}</span>`)
                  }
 
@@ -201,29 +210,77 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
                  }
 
                  vault_td = $(`td#ach_attr_vault_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(vault_td.text()) > parseInt(h.ach_attributes.vault)) {
-                 vault_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(vault_td.text()) - parseInt(h.ach_attributes.vault)}</span>`)
-                 } else if (parseInt(vault_td.text()) < parseInt(h.ach_attributes.vault)) {
-                 vault_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(vault_td.text()) - parseInt(h.ach_attributes.vault)}</span>`)
+                 if (parseInt(vault_td.text().replace(",", "")) > parseInt(h.ach_attributes.vault.replace(",", ""))) {
+                 vault_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(vault_td.text().replace(",", "")) - parseInt(h.ach_attributes.vault.replace(",", ""))}</span>`)
+                 } else if (parseInt(vault_td.text().replace(",", "")) < parseInt(h.ach_attributes.vault.replace(",", ""))) {
+                 vault_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(vault_td.text().replace(",", "")) - parseInt(h.ach_attributes.vault.replace(",", ""))}</span>`)
                  }
 
                  survival_td = $(`td#ach_attr_survival_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(survival_td.text()) > parseInt(h.ach_attributes.survival)) {
-                 survival_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(survival_td.text()) - parseInt(h.ach_attributes.survival)}</span>`)
-                 } else if (parseInt(survival_td.text()) < parseInt(h.ach_attributes.survival)) {
-                 survival_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(survival_td.text()) - parseInt(h.ach_attributes.survival)}</span>`)
+                 if (parseInt(survival_td.text().replace(",", "")) > parseInt(h.ach_attributes.survival.replace(",", ""))) {
+                 survival_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(survival_td.text().replace(",", "")) - parseInt(h.ach_attributes.survival.replace(",", ""))}</span>`)
+                 } else if (parseInt(survival_td.text().replace(",", "")) < parseInt(h.ach_attributes.survival.replace(",", ""))) {
+                 survival_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(survival_td.text().replace(",", "")) - parseInt(h.ach_attributes.survival.replace(",", ""))}</span>`)
                  }
+           });
 
-              });
-           };
-        });
+
 
         $(".delta_power_sum").text(parseInt($(".new_power_sum").text().replace(",", "")) - parseInt($(".old_power_sum").text().replace(",", "")))
 
 
       });
 
+
+       $.getJSON(`database/${yesterday}.json`, function(data) {
+                 $.each(data.tribes, function(g, h) {
+
+                 members_td = $(`td#tribe_members_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(members_td.text().replace(",", "")) > parseInt(h.guild_parameters.members.replace(",", ""))) {
+                 members_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(members_td.text().replace(",", "")) - parseInt(h.guild_parameters.members).replace(",", "")}</span>`)
+                 } else if (parseInt(members_td.text().replace(",", "")) < parseInt(h.guild_parameters.members.replace(",", ""))) {
+                 members_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(members_td.text().replace(",", "")) - parseInt(h.guild_parameters.members).replace(",", "")}</span>`)
+                 }
+
+                 tribe_lvl_td = $(`tribe_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(tribe_lvl_td.text().replace(",", "")) > parseInt(h.guild_parameters.lvl.replace(",", ""))) {
+                 tribe_lvl_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(tribe_lvl_td.text().replace(",", "")) - parseInt(h.guild_parameters.lvl.replace(",", ""))}</span>`)
+                 } else if (parseInt(tribe_lvl_td.text().replace(",", "")) < parseInt(h.guild_parameters.lvl.replace(",", ""))) {
+                 tribe_lvl_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(tribe_lvl_td.text().replace(",", "")) - parseInt(h.guild_parameters.lvl.replace(",", ""))}</span>`)
+                 }
+
+                 reactor_td = $(`td#tribe_reactor_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(reactor_td.text().replace(",", "")) > parseInt(h.guild_parameters.reactor.replace(",", ""))) {
+                 reactor_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(reactor_td.text().replace(",", "")) - parseInt(h.guild_parameters.reactor.replace(",", ""))}</span>`)
+                 } else if (parseInt(reactor_td.text().replace(",", "")) < parseInt(h.guild_parameters.reactor.replace(",", ""))) {
+                 reactor_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(reactor_td.text().replace(",", "")) - parseInt(h.guild_parameters.reactor.replace(",", ""))}</span>`)
+                 }
+
+                 tribe_rank_td = $(`td#ext_attr_rank_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(tribe_rank_td.text().replace(",", "")) < parseInt(h.guild_results.rank.replace(",", ""))) {
+                 tribe_rank_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(tribe_rank_td.text().replace(",", "")) - parseInt(h.guild_results.rank.replace(",", ""))}</span>`)
+                 } else if (parseInt(tribe_rank_td.text().replace(",", "")) > parseInt(h.guild_results.rank.replace(",", ""))) {
+                 tribe_rank_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(tribe_rank_td.text().replace(",", "")) - parseInt(h.guild_results.rank.replace(",", ""))}</span>`)
+                 }
+
+                 tribe_fame_td = $(`td#tribe_fame_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(tribe_fame_td.text().replace(",", "")) > parseInt(h.guild_results.fame.replace(",", ""))) {
+                 tribe_fame_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(tribe_fame_td.text().replace(",", "")) - parseInt(h.guild_results.fame.replace(",", ""))}</span>`)
+                 } else if (parseInt(tribe_fame_td.text().replace(",", "")) < parseInt(h.guild_results.fame.replace(",", ""))) {
+                 tribe_fame_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(tribe_fame_td.text().replace(",", "")) - parseInt(h.guild_results.fame.replace(",", ""))}</span>`)
+                 }
+
+                 tribe_power_td = $(`td#tribe_power_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(survival_td.text().replace(",", "")) > parseInt(h.guild_results.power.replace(",", ""))) {
+                 survival_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(survival_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
+                 } else if (parseInt(survival_td.text().replace(",", "")) < parseInt(h.guild_results.power.replace(",", ""))) {
+                 survival_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(survival_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
+                 }
+
+
    });
+});
+});
 
 
   setTimeout(function(){ document.getElementById("defaultOpen").click();
@@ -244,6 +301,7 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
         $('#player_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
         $('#player_ext_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
         $('#player_res_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
+        $('#tribes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
         $(`<span>${today}</span>`).appendTo("#dateTracker");
    } );}, 400);
 
@@ -326,9 +384,10 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
 
     <div class="tab flex items-center justify-between">
       <div>
-      <button class="tablinks" onclick="openCity(event, 'Statystyki')" id="defaultOpen">Statystyki</button>
-      <button class="tablinks" onclick="openCity(event, 'Wskaźniki')">Wskaźniki</button>
-      <button class="tablinks" onclick="openCity(event, 'Wyniki')">Wyniki</button>
+        <button class="tablinks" onclick="openCity(event, 'Statystyki')" id="defaultOpen">Statystyki</button>
+        <button class="tablinks" onclick="openCity(event, 'Wskaźniki')">Wskaźniki</button>
+        <button class="tablinks" onclick="openCity(event, 'Wyniki')">Wyniki</button>
+        <button class="tablinks" onclick="openCity(event, 'Wrogowie')">Wrogowie</button>
       </div>
       <span class="tablinks pr-5" id="dateTracker">Ostatnia akutalizacja: </span>
     </div>
@@ -375,6 +434,22 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
         <th>Czas w karawanie</th>
         <th>Spenetrowane loszki</th>
         <th>Survival</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="Wrogowie" class="tabcontent">
+      <table class="table table-sm table-dark" id="tribes">
+        <thead>
+        <th>Nazwa</th>
+        <th>Lvl</th>
+        <th>Liczba członków</th>
+        <th>Reaktor</th>
+        <th>Ranking</th>
+        <th>Sława</th>
+        <th>Pierdolnięcie</th>
         </thead>
         <tbody>
         </tbody>
