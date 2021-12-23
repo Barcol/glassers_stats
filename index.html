@@ -1,0 +1,393 @@
+<html>
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<!--     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>  <script>
+
+    function openCity(evt, cityName) {
+      // Declare all variables
+      var i, tabcontent, tablinks;
+
+      // Get all elements with class="tabcontent" and hide them
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      // Get all elements with class="tablinks" and remove the class "active"
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      // Show the current tab, and add an "active" class to the button that opened the tab
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+
+
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = yyyy + '-' +  mm + '-' + dd;
+
+
+var yesterday_date = new Date();
+yesterday_date.setDate(yesterday_date.getDate() - 1);
+var y_dd = String(yesterday_date.getDate()).padStart(2, '0');
+var y_mm = String(yesterday_date.getMonth() + 1).padStart(2, '0');
+var y_yyyy = yesterday_date.getFullYear();
+yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
+
+
+       $(function() {
+
+
+
+      var people = [];
+
+      $.getJSON('glassers.json', function(data) {
+          $.each(data, function(i, f) {
+              if(f.date == today) {
+                 $.each(f.players, function(g, h) {
+
+                      var attrRow = "<tr>" +
+                      "<td class='font-black'>" + h.name+ "</td>" +
+                    `<td id="attr_str_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.attributes.str}>` + h.attributes.str + "</td>" +
+                    `<td id="attr_agi_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.attributes.agi}>` + h.attributes.agi + "</td>" +
+                    `<td id="attr_end_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.attributes.end}>` + h.attributes.end + "</td>" +
+                    `<td id="attr_int_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.attributes.int}>` + h.attributes.int + "</td>" +
+                    `<td id="attr_lck_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.attributes.lck}>` + h.attributes.lck + "</td>" +
+                    "</tr>"
+                    $(attrRow).appendTo("#player_attributes tbody");
+
+                    var extAttrRow = "<tr>" +
+                    "<td class='font-black'>" + h.name+ "</td>" +
+                    `<td id="ext_attr_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ext_attributes.lvl}>` + h.ext_attributes.lvl + "</td>" +
+                    `<td id="ext_attr_rank_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ext_attributes.rank}>` + h.ext_attributes.rank + "</td>" +
+                    `<td id="ext_attr_fame_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ext_attributes.fame}>` + h.ext_attributes.fame + "</td>" +
+                    `<td id="ext_attr_power_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ext_attributes.power}>` + h.ext_attributes.power + "</td>" +
+                    "</tr>"
+                    $(extAttrRow).appendTo("#player_ext_attributes tbody");
+
+                    $(".new_power_sum").text(parseInt($(".new_power_sum").text().replace(",", "")) + parseInt(h.ext_attributes.power.replace(",", "")))
+
+
+                    var resRow = "<tr>" +
+                    "<td class='font-black'>" + h.name+ "</td>" +
+                    `<td id="ach_attr_explores_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ach_attributes.explores}>` + h.ach_attributes.explores + "</td>" +
+                    `<td id="ach_attr_quests_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ach_attributes.quests}>` + h.ach_attributes.quests + "</td>" +
+                    `<td id="ach_attr_monsters_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ach_attributes.monsters}>` + h.ach_attributes.monsters + "</td>" +
+                    `<td id="ach_attr_caravan_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ach_attributes.caravan.replace("h", "")}>` + h.ach_attributes.caravan + "</td>" +
+                    `<td id="ach_attr_vault_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ach_attributes.vault}>` + h.ach_attributes.vault + "</td>" +
+                    `<td id="ach_attr_survival_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ach_attributes.survival}>` + h.ach_attributes.survival + "</td>" +
+
+                    "</tr>"
+                    $(resRow).appendTo("#player_res_attributes tbody");
+              });
+           };
+        });
+
+         $.each(data, function(i, f) {
+              if(f.date == yesterday) {
+                 $.each(f.players, function(g, h) {
+                 str_td = $(`td#attr_str_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(str_td.text()) > parseInt(h.attributes.str)) {
+                 str_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(str_td.text()) - parseInt(h.attributes.str)}</span>`)
+                 } else if (parseInt(str_td.text()) < parseInt(h.attributes.str)) {
+                 str_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(str_td.text()) - parseInt(h.attributes.str)}</span>`)
+                 }
+
+                 agi_td = $(`td#attr_agi_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(agi_td.text()) > parseInt(h.attributes.agi)) {
+                 agi_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(agi_td.text()) - parseInt(h.attributes.agi)}</span>`)
+                 } else if (parseInt(agi_td.text()) < parseInt(h.attributes.agi)) {
+                 agi_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(agi_td.text()) - parseInt(h.attributes.agi)}</span>`)
+                 }
+
+                 end_td = $(`td#attr_end_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(end_td.text()) > parseInt(h.attributes.end)) {
+                 end_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(end_td.text()) - parseInt(h.attributes.end)}</span>`)
+                 } else if (parseInt(end_td.text()) < parseInt(h.attributes.end)) {
+                 end_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(end_td.text()) - parseInt(h.attributes.end)}</span>`)
+                 }
+
+                 int_td = $(`td#attr_int_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(int_td.text()) > parseInt(h.attributes.int)) {
+                 int_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(int_td.text()) - parseInt(h.attributes.int)}</span>`)
+                 } else if (parseInt(int_td.text()) < parseInt(h.attributes.int)) {
+                 int_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(int_td.text()) - parseInt(h.attributes.int)}</span>`)
+                 }
+
+                 lck_td = $(`td#attr_lck_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(lck_td.text()) > parseInt(h.attributes.lck)) {
+                 lck_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(lck_td.text()) - parseInt(h.attributes.lck)}</span>`)
+                 } else if (parseInt(lck_td.text()) < parseInt(h.attributes.lck)) {
+                 lck_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(lck_td.text()) - parseInt(h.attributes.lck)}</span>`)
+                 }
+
+
+
+
+                 lvl_td = $(`td#ext_attr_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                                  if (parseInt(lvl_td.text()) > parseInt(h.ext_attributes.lvl)) {
+                 lvl_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(lvl_td.text()) - parseInt(h.ext_attributes.lvl)}</span>`)
+                 } else if (parseInt(lvl_td.text()) < parseInt(h.ext_attributes.lvl)) {
+                 lvl_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(lvl_td.text()) - parseInt(h.ext_attributes.lvl)}</span>`)
+                 }
+
+                 rank_td = $(`td#ext_attr_rank_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                                  if (parseInt(rank_td.text()) < parseInt(h.ext_attributes.rank)) {
+                 rank_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(rank_td.text()) - parseInt(h.ext_attributes.rank)}</span>`)
+                 } else if (parseInt(rank_td.text()) > parseInt(h.ext_attributes.rank)) {
+                 rank_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(rank_td.text()) - parseInt(h.ext_attributes.rank)}</span>`)
+                 }
+
+                 fame_td = $(`td#ext_attr_fame_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                                  if (parseInt(fame_td.text().replace(",", "")) > parseInt(h.ext_attributes.fame.replace(",", ""))) {
+                 fame_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(fame_td.text().replace(",", "")) - parseInt(h.ext_attributes.fame.replace(",", ""))}</span>`)
+                 } else if (parseInt(fame_td.text().replace(",", "")) < parseInt(h.ext_attributes.fame.replace(",", ""))) {
+                 fame_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(fame_td.text().replace(",", "")) - parseInt(h.ext_attributes.fame.replace(",", ""))}</span>`)
+                 }
+
+                 power_td = $(`td#ext_attr_power_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                                  if (parseInt(power_td.text().replace(",", "")) > parseInt(h.ext_attributes.power.replace(",", ""))) {
+                 power_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(power_td.text().replace(",", "")) - parseInt(h.ext_attributes.power.replace(",", ""))}</span>`)
+                 } else if (parseInt(power_td.text().replace(",", "")) < parseInt(h.ext_attributes.power.replace(",", ""))) {
+                 power_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(power_td.text().replace(",", "")) - parseInt(h.ext_attributes.power.replace(",", ""))}</span>`)
+                 }
+                 $(".old_power_sum").text(parseInt($(".old_power_sum").text().replace(",", "")) + parseInt(h.ext_attributes.power.replace(",", "")))
+
+
+
+
+
+                 explores_td = $(`td#ach_attr_explores_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(explores_td.text().replace(",", "")) > parseInt(h.ach_attributes.explores).replace(",", "")) {
+                 explores_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores).replace(",", "")}</span>`)
+                 } else if (parseInt(explores_td.text().replace(",", "")) < parseInt(h.ach_attributes.explores).replace(",", "")) {
+                 explores_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores).replace(",", "")}</span>`)
+                 }
+
+                 quests_td = $(`td#ach_attr_quests_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(quests_td.text()) > parseInt(h.ach_attributes.quests)) {
+                 quests_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(quests_td.text()) - parseInt(h.ach_attributes.quests)}</span>`)
+                 } else if (parseInt(quests_td.text()) < parseInt(h.ach_attributes.quests)) {
+                 quests_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(quests_td.text()) - parseInt(h.ach_attributes.quests)}</span>`)
+                 }
+
+                 monsters_td = $(`td#ach_attr_monsters_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(monsters_td.text().replace(",", "")) > parseInt(h.ach_attributes.monsters.replace(",", ""))) {
+                 monsters_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(monsters_td.text().replace(",", "")) - parseInt(h.ach_attributes.monsters.replace(",", ""))}</span>`)
+                 } else if (parseInt(monsters_td.text().replace(",", "")) < parseInt(h.ach_attributes.monsters).replace(",", "")) {
+                 monsters_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(monsters_td.text().replace(",", "")) - parseInt(h.ach_attributes.monsters.replace(",", ""))}</span>`)
+                 }
+
+                 caravan_td = $(`td#ach_attr_caravan_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(caravan_td.text()) > parseInt(h.ach_attributes.caravan)) {
+                 caravan_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(caravan_td.text()) - parseInt(h.ach_attributes.caravan)}</span>`)
+                 } else if (parseInt(caravan_td.text()) < parseInt(h.ach_attributes.caravan)) {
+                 caravan_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(caravan_td.text()) - parseInt(h.ach_attributes.caravan)}</span>`)
+                 }
+
+                 vault_td = $(`td#ach_attr_vault_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(vault_td.text()) > parseInt(h.ach_attributes.vault)) {
+                 vault_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(vault_td.text()) - parseInt(h.ach_attributes.vault)}</span>`)
+                 } else if (parseInt(vault_td.text()) < parseInt(h.ach_attributes.vault)) {
+                 vault_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(vault_td.text()) - parseInt(h.ach_attributes.vault)}</span>`)
+                 }
+
+                 survival_td = $(`td#ach_attr_survival_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
+                 if (parseInt(survival_td.text()) > parseInt(h.ach_attributes.survival)) {
+                 survival_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(survival_td.text()) - parseInt(h.ach_attributes.survival)}</span>`)
+                 } else if (parseInt(survival_td.text()) < parseInt(h.ach_attributes.survival)) {
+                 survival_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(survival_td.text()) - parseInt(h.ach_attributes.survival)}</span>`)
+                 }
+
+              });
+           };
+        });
+
+        $(".delta_power_sum").text(parseInt($(".new_power_sum").text().replace(",", "")) - parseInt($(".old_power_sum").text().replace(",", "")))
+
+
+      });
+
+   });
+
+
+  setTimeout(function(){ document.getElementById("defaultOpen").click();
+        $(document).ready( function () {
+
+        language = {search: "Znajdź dzielnego woja:", lengthMenu: "Naraz pokazuj mi _MENU_ gagatków", info: "Rozpiska od _START_ do _END_ z _TOTAL_ wszystkich czł00nków", paginate: {
+        first: "Najpierwsza",
+        previous: "We cofnij troszku",
+        next: "Napieraj dale strone",
+        last: "Tył autobusu",
+      },zeroRecords: "COŚTY WYMYŚLIŁ XDDDDDDDD", infoFiltered: "(jakieś filtrowanie na kiju spośród _MAX_ dostępnych pozycji)",}
+
+         lengthMenu = [
+      [-1, 10, 25, 50, 100, 2],
+      ["Wszystkie", 10, 25, 50, 100, "2, ale po co xD"],
+    ],
+
+        $('#player_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
+        $('#player_ext_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
+        $('#player_res_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
+        $(`<span>${today}</span>`).appendTo("#dateTracker");
+   } );}, 400);
+
+  </script>
+
+  <style>
+
+  body{
+    background-image: url('background.jpg');
+  }
+
+  .arrow-up {
+    width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+
+  border-bottom: 5px solid green;
+  }
+
+  .arrow-down {
+      width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+
+  border-top: 5px solid red;
+  }
+
+
+    /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      border-top: none;
+      background-color: #f1f1f1;
+    }
+
+    .extrainfo {
+      background-image: url('bloody_parchment.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="wrapper p-40">
+  <div class="profile">
+
+    <div class="tab flex items-center justify-between">
+      <div>
+      <button class="tablinks" onclick="openCity(event, 'Statystyki')" id="defaultOpen">Statystyki</button>
+      <button class="tablinks" onclick="openCity(event, 'Wskaźniki')">Wskaźniki</button>
+      <button class="tablinks" onclick="openCity(event, 'Wyniki')">Wyniki</button>
+      </div>
+      <span class="tablinks pr-5" id="dateTracker">Ostatnia akutalizacja: </span>
+    </div>
+
+
+    <div id="Statystyki" class="tabcontent">
+      <table class="table table-sm table-dark" id="player_attributes">
+        <thead>
+        <th>Bohater</th>
+        <th>Siła</th>
+        <th>Zwinność</th>
+        <th>Wytrzymałość</th>
+        <th>Intelekt</th>
+        <th>Farcik</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div id="Wskaźniki" class="tabcontent">
+      <table class ="table table-sm table-dark" id="player_ext_attributes">
+        <thead>
+        <th>Bohater</th>
+        <th>Lvl</th>
+        <th>Ranking</th>
+        <th>Sława</th>
+        <th>Pierdolnięcie</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div id="Wyniki" class="tabcontent">
+      <table class="table table-sm table-dark" id="player_res_attributes">
+        <thead>
+        <th>Bohater</th>
+        <th>Wyprawy owocne</th>
+        <th>Zadanka</th>
+        <th>Rozjebane gnidy</th>
+        <th>Czas w karawanie</th>
+        <th>Spenetrowane loszki</th>
+        <th>Survival</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="extrainfo w-50 pl-40 ml-60 font-black">
+        <div>Suma pierdolnięcia za wczoraj: <span class="old_power_sum">0</span></div>
+        <div>Suma pierdolnięcia za dzisiaj: <span class="new_power_sum">0</span></div>
+        <div>Wzrost pierdolnięcia: <span class="delta_power_sum text-green-800">0</span></div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
