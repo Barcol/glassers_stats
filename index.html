@@ -94,8 +94,8 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
                              });
 
         $.each(data.tribes, function(g, h) {
-                    var tribeRow = "<tr>" +
-                    "<td class='font-black'>" + h.name+ "</td>" +
+                    var tribeRow = `<tr class='${(h.name == "Glassers") ? 'text-green-500' : ''}'>` +
+                    `<td class='font-black'>` + h.name+ "</td>" +
                     `<td id="tribe_members_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.members}>` + h.guild_parameters.members + "</td>" +
                     `<td id="tribe_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.lvl}>` + h.guild_parameters.lvl + "</td>" +
                     `<td id="tribe_reactor_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.reactor}>` + h.guild_parameters.reactor + "</td>" +
@@ -271,10 +271,10 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
                  }
 
                  tribe_power_td = $(`td#tribe_power_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(survival_td.text().replace(",", "")) > parseInt(h.guild_results.power.replace(",", ""))) {
-                 survival_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(survival_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
-                 } else if (parseInt(survival_td.text().replace(",", "")) < parseInt(h.guild_results.power.replace(",", ""))) {
-                 survival_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(survival_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
+                 if (parseInt(tribe_power_td.text().replace(",", "")) > parseInt(h.guild_results.power.replace(",", ""))) {
+                 tribe_power_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(tribe_power_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
+                 } else if (parseInt(tribe_power_td.text().replace(",", "")) < parseInt(h.guild_results.power.replace(",", ""))) {
+                 tribe_power_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(tribe_power_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
                  }
 
 

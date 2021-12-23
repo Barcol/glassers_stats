@@ -61,7 +61,7 @@ for html in raw_htmls:
 
 # Tribes part
 
-guild_names = ["glassers", "turkish-army", "rooks", "stalkerz", "balance", "fatality", "mafia", "new-republic", "parlament"]
+guild_names = ["glassers", "turkish-army", "rooks", "stalkerz", "balance", "fatality", "mafia", "new-republic", "parlament", "quest", "purgatorioita", "black-army", "axischurch", "power-trip", "spirituality", "arroyo", "idle-fix", "hyperia", "exiled"]
 
 raw_guild_htmls = [requests.get(f"https://api.lost-vault.com/tribes/{tribe_name}/") for tribe_name in guild_names]
 
