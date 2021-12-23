@@ -1,2 +1,9 @@
 bloody_parchment.jpg
 background.jpg
+example_LV_response.txt
+glassers.json
+database/**/*
+*_backup*
+*.json
+*.zip
+
