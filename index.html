@@ -183,9 +183,9 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
 
                  explores_td = $(`td#ach_attr_explores_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
                  if (parseInt(explores_td.text().replace(",", "")) > parseInt(h.ach_attributes.explores.replace(",", ""))) {
-                 explores_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores).replace(",", "")}</span>`)
+                 explores_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores.replace(",", ""))}</span>`)
                  } else if (parseInt(explores_td.text().replace(",", "")) < parseInt(h.ach_attributes.explores.replace(",", ""))) {
-                 explores_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores).replace(",", "")}</span>`)
+                 explores_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(explores_td.text().replace(",", "")) - parseInt(h.ach_attributes.explores.replace(",", ""))}</span>`)
                  }
 
                  quests_td = $(`td#ach_attr_quests_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
@@ -237,9 +237,9 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
 
                  members_td = $(`td#tribe_members_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
                  if (parseInt(members_td.text().replace(",", "")) > parseInt(h.guild_parameters.members.replace(",", ""))) {
-                 members_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(members_td.text().replace(",", "")) - parseInt(h.guild_parameters.members).replace(",", "")}</span>`)
+                 members_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(members_td.text().replace(",", "")) - parseInt(h.guild_parameters.members.replace(",", ""))}</span>`)
                  } else if (parseInt(members_td.text().replace(",", "")) < parseInt(h.guild_parameters.members.replace(",", ""))) {
-                 members_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(members_td.text().replace(",", "")) - parseInt(h.guild_parameters.members).replace(",", "")}</span>`)
+                 members_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(members_td.text().replace(",", "")) - parseInt(h.guild_parameters.members.replace(",", ""))}</span>`)
                  }
 
                  tribe_lvl_td = $(`tribe_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
