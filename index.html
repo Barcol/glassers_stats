@@ -57,6 +57,7 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
       var people = [];
 
       $.getJSON(`database/${today}.json`, function(data) {
+          $(`<span>${data.precise_date}</span>`).appendTo("#dateTracker");
           $.each(data.players, function(g, h) {
                       var attrRow = "<tr>" +
                       "<td class='font-black'>" + h.name+ "</td>" +
@@ -302,7 +303,7 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
         $('#player_ext_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
         $('#player_res_attributes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
         $('#tribes').DataTable({dom: "lfrtip", language: language, lengthMenu: lengthMenu});
-        $(`<span>${today}</span>`).appendTo("#dateTracker");
+
    } );}, 400);
 
   </script>
