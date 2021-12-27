@@ -61,7 +61,13 @@ for html in raw_htmls:
 
 # Tribes part
 
-guild_names = ["glassers", "turkish-army", "rooks", "stalkerz", "balance", "fatality", "mafia", "new-republic", "parlament", "quest", "purgatorioita", "black-army", "axischurch", "power-trip", "spirituality", "arroyo", "idle-fix", "hyperia", "exiled"]
+guild_names = ["glassers", "turkish-army", "stalkerz", "parlament", "axischurch", "arroyo", "idle-fix", "power-trip", "hyperia", "spirituality", "the-sphere",
+ "exiled", "luscea", "guild-7", "latam_raiders", "havoc", "farmrpg", "elysium", "stormblood", "brewers-guild",
+ "guild-5", "raiders", "nightmare-rats", "the-light", "fenrir", "bloodhounds", "old-guard", "real-sociedade", "bumpmap",
+ "darkwarriors", "destroyers", "chayka", "skcz-legion", "foamy-scamps", "mercs", "monolit", "russians-coming",
+ "desert-rangers", "star-children", "legion", "charlie-squad", "german-elite", "haventus", "guild-3", "eclipse-academy",
+ "old-gamers", "free2play", "winged-hussars", "inferno", "grom", "top", "elit", "guild", "guild-2", "team-squad",
+ "the-tavern", "bravo-squad", "dakar", "the-lotus", "clarity", "flawless", "eclipse", "alpha-squad"]
 
 raw_guild_htmls = [requests.get(f"https://api.lost-vault.com/tribes/{tribe_name}/") for tribe_name in guild_names]
 
