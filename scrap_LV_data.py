@@ -16,7 +16,7 @@ final_result["precise_date"] = date.today().strftime("%Y-%m-%d, %H:%M")
 
 # Players Part
 
-nicknames = ["e46-w-kompocie", "gandalf-zielony", "vinne", "jan-karze-3", "rafau", "jasen", "rebeusus", "kibel", "szaowyOl12", "nisert", "twardomir", "wujas", "azja"]
+nicknames = ["e46-w-kompocie", "gandalf-zielony", "vinne", "jan-karze-3", "rafau", "jasen", "rebeusus", "kibel", "szaowyOl12", "nisert", "twardomir", "wujas", "azja", "huj", "trooll1980"]
 
 raw_htmls = [requests.get(f"https://api.lost-vault.com/players/{nickname}/") for nickname in nicknames]
 
