@@ -97,7 +97,7 @@ for html in raw_guild_htmls:
     soup.find(class_="ui inverted segment").decompose()
 
     # Assign to JSON
-    final_result["tribes"].append({"name": tribe_name, "guild_parameters": guild_parameters, "guild_results": guild_results})
+    final_result["tribes"].append({"name": tribe_name, "guild_parameters": guild_parameters, "guild_results": guild_results, "endpoint": html.url})
 
 
 print("====================================")
