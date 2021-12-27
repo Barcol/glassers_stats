@@ -78,9 +78,6 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
                     "</tr>"
                     $(extAttrRow).appendTo("#player_ext_attributes tbody");
 
-                    $(".new_power_sum").text(parseInt($(".new_power_sum").text().replace(",", "")) + parseInt(h.ext_attributes.power.replace(",", "")))
-
-
                     var resRow = "<tr>" +
                     "<td class='font-black'>" + h.name+ "</td>" +
                     `<td id="ach_attr_explores_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.ach_attributes.explores}>` + h.ach_attributes.explores + "</td>" +
@@ -178,8 +175,6 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
                  } else if (parseInt(power_td.text().replace(",", "")) < parseInt(h.ext_attributes.power.replace(",", ""))) {
                  power_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(power_td.text().replace(",", "")) - parseInt(h.ext_attributes.power.replace(",", ""))}</span>`)
                  }
-                 $(".old_power_sum").text(parseInt($(".old_power_sum").text().replace(",", "")) + parseInt(h.ext_attributes.power.replace(",", "")))
-
 
 
                  explores_td = $(`td#ach_attr_explores_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
@@ -224,12 +219,6 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
                  survival_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(survival_td.text().replace(",", "")) - parseInt(h.ach_attributes.survival.replace(",", ""))}</span>`)
                  }
            });
-
-
-
-        $(".delta_power_sum").text(parseInt($(".new_power_sum").text().replace(",", "")) - parseInt($(".old_power_sum").text().replace(",", "")))
-
-
       });
 
 
@@ -272,10 +261,10 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
                  }
 
                  tribe_power_td = $(`td#tribe_power_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}`)
-                 if (parseInt(tribe_power_td.text().replace(",", "")) > parseInt(h.guild_results.power.replace(",", ""))) {
-                 tribe_power_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(tribe_power_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
-                 } else if (parseInt(tribe_power_td.text().replace(",", "")) < parseInt(h.guild_results.power.replace(",", ""))) {
-                 tribe_power_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(tribe_power_td.text().replace(",", "")) - parseInt(h.guild_results.power.replace(",", ""))}</span>`)
+                 if (parseInt(tribe_power_td.text().replaceAll(",", "")) > parseInt(h.guild_results.power.replaceAll(",", ""))) {
+                 tribe_power_td.append(`<span class="arrow-up ml-4"></span> <span class="text-green-500">${parseInt(tribe_power_td.text().replaceAll(",", "")) - parseInt(h.guild_results.power.replaceAll(",", ""))}</span>`)
+                 } else if (parseInt(tribe_power_td.text().replaceAll(",", "")) < parseInt(h.guild_results.power.replaceAll(",", ""))) {
+                 tribe_power_td.append(`<span class="arrow-down ml-4"></span> <span class="text-red-500">${parseInt(tribe_power_td.text().replaceAll(",", "")) - parseInt(h.guild_results.power.replaceAll(",", ""))}</span>`)
                  }
 
 
@@ -368,13 +357,6 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
       background-color: #f1f1f1;
     }
 
-    .extrainfo {
-      background-image: url('bloody_parchment.jpg');
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-
   </style>
 </head>
 
@@ -456,13 +438,6 @@ yesterday = y_yyyy + '-' +  y_mm + '-' + y_dd;
         </tbody>
       </table>
     </div>
-
-    <div class="extrainfo w-50 pl-40 ml-60 font-black">
-        <div>Suma pierdolnięcia za wczoraj: <span class="old_power_sum">0</span></div>
-        <div>Suma pierdolnięcia za dzisiaj: <span class="new_power_sum">0</span></div>
-        <div>Wzrost pierdolnięcia: <span class="delta_power_sum text-green-800">0</span></div>
-    </div>
-
   </div>
 </div>
 </body>
