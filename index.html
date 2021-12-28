@@ -90,7 +90,7 @@ $(function() {
 
         $.each(data.tribes, function(g, h) {
           var tribeRow = `<tr class='${(h.name == "Glassers") ? 'text-green-500' : ''}'>` +
-            `<td class='font-black'>` + h.name+ "</td>" +
+            `<td class='font-black flex'>` + h.name + `<a href="${h.endpoint}"><img src="link-16.ico"/></a>` + "</td>" +
             `<td id="tribe_members_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.members}>` + h.guild_parameters.members + "</td>" +
             `<td id="tribe_lvl_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.lvl}>` + h.guild_parameters.lvl + "</td>" +
             `<td id="tribe_reactor_${h.name.replace(/\d+/g, '').replace(/\s/g, '')}" data-order=${h.guild_parameters.reactor}>` + h.guild_parameters.reactor + "</td>" +
