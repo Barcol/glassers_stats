@@ -8,6 +8,11 @@ You'll get some free coins (and I'll receive some too!)
 
 # Ok, but how into running this?
 
+First create your `.env` file and put your tribe name in there, as in sample example!
+```
+cp .env.sample .env
+```
+
 Get Python3, and provide neccessary dependencies:
 
 ```bash

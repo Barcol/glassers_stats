@@ -3,8 +3,12 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime as date
-from os import path
+from os import path, environ
 from collections import ChainMap
+from dotenv import load_dotenv
+import re
+
+load_dotenv()
 
 final_result = {}
 
@@ -15,8 +19,10 @@ final_result["precise_date"] = date.today().strftime("%Y-%m-%d, %H:%M")
 
 
 # Players Part
-
-nicknames = ["e46-w-kompocie", "gandalf-zielony", "vinne", "jan-karze-3", "rafau", "jasen", "rebeusus", "kibel", "szaowyOl12", "nisert", "twardomir", "wujas", "azja", "huj", "trooll1980"]
+guild_page = requests.get(f"https://api.lost-vault.com/tribes/{environ.get('GUILD_RESOURCE_NAME')}/")
+soup = BeautifulSoup(guild_page.text, 'html.parser')
+real_nicknames = [tr.find("div", class_="content").get_text().strip().splitlines()[0] for tr in soup.find("table").find("tbody").find_all("tr")]
+nicknames = [re.sub(" ", "-", nick.encode('ascii', 'ignore').decode('ascii')).lower() for nick in real_nicknames]
 
 raw_htmls = [requests.get(f"https://api.lost-vault.com/players/{nickname}/") for nickname in nicknames]
 

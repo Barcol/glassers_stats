@@ -6,4 +6,5 @@ database/**/*
 *_backup*
 *.json
 *.zip
+.env
 
