@@ -19,7 +19,7 @@ final_result["precise_date"] = date.today().strftime("%Y-%m-%d, %H:%M")
 
 
 # Players Part
-guild_page = requests.get(f"https://api.lost-vault.com/tribes/{environ.get('GUILD_RESOURCE_NAME')}/")
+guild_page = requests.get(f"https://api.lost-vault.com/guilds/{environ.get('GUILD_RESOURCE_NAME')}/")
 soup = BeautifulSoup(guild_page.text, 'html.parser')
 real_nicknames = [tr.find("div", class_="content").get_text().strip().splitlines()[0] for tr in soup.find("table").find("tbody").find_all("tr")]
 nicknames = [re.sub(" ", "-", nick.encode('ascii', 'ignore').decode('ascii')).lower() for nick in real_nicknames]
@@ -75,7 +75,7 @@ guild_names = ["glassers", "turkish-army", "stalkerz", "parlament", "axischurch"
  "old-gamers", "free2play", "winged-hussars", "inferno", "grom", "top", "elit", "guild", "guild-2", "team-squad",
  "the-tavern", "bravo-squad", "dakar", "the-lotus", "clarity", "flawless", "eclipse", "alpha-squad"]
 
-raw_guild_htmls = [requests.get(f"https://api.lost-vault.com/tribes/{tribe_name}/") for tribe_name in guild_names]
+raw_guild_htmls = [requests.get(f"https://api.lost-vault.com/guilds/{tribe_name}/") for tribe_name in guild_names]
 
 guild_parameter_colours = {"lvl": "red", "members": "orange", "reactor": "yellow"}
 guild_result_colours = {"rank": "yellow", "fame": "green", "power": "olive"}
